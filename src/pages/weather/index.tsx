@@ -7,31 +7,45 @@ import { Flex } from '../../assets/styles/helper'
 import Slider from '../../components/pages/weather/Slider'
 import { wrapper } from '../../redux/store'
 import { fetchWeather } from '../../redux/reducers/weather'
-import {useAppDispatch, useAppSelector} from "../../hooks/redux";
+import { useAppSelector } from '../../hooks/redux'
+import { Button, Typography } from '@mui/material'
+import { useRouter } from 'next/router'
+import Link from 'next/link'
 
 const Index = () => {
-  // const dispatch = useAppDispatch()
-  // const {weather} = useAppSelector(state => state.weatherReducer)
-  //
-  // React.useEffect(() => {
-  //   dispatch(fetchWeather())
-  // }, [])
-  // console.log(weather)
+  const {
+    query: { city }
+  } = useRouter()
+  const { weather } = useAppSelector(state => state.weatherReducer)
+  console.log(weather)
 
   return (
     <Wrapper>
-      <Flex justify={'space-between'} margin={'0 0 40px'}>
-        <WeatherCard />
-        <SideBar />
-      </Flex>
-      <Slider />
+      {weather.length != 0 ? (
+        <>
+          {' '}
+          <Flex justify={'space-between'} margin={'0 0 40px'}>
+            <WeatherCard />
+            <SideBar />
+          </Flex>
+          <Slider />
+        </>
+      ) : (
+        <Flex direction={'column'} align={'center'} justify={'center'}>
+          <Typography>По запросу "{city}" ничего не найдено</Typography>
+          <Link href={'/'}>
+            <Button sx={{ color: 'white' }}>Вернутся назад</Button>
+          </Link>
+        </Flex>
+      )}
     </Wrapper>
   )
 }
 
-// Index.getInitialProps = wrapper.getInitialPageProps(({ dispatch }) => async () => {
-//   await dispatch(fetchWeather('Bishkek'))
-// })
+Index.getInitialProps = wrapper.getInitialPageProps(({ dispatch }) => async ({ query }) => {
+  const { city } = query
+  await dispatch(fetchWeather(`${city}`))
+})
 
 const Wrapper = styled.div`
   display: flex;

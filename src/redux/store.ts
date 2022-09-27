@@ -1,9 +1,9 @@
 import { Action, AnyAction, combineReducers, configureStore, ThunkAction } from '@reduxjs/toolkit'
 import { createWrapper, HYDRATE } from 'next-redux-wrapper'
-// import weatherReducer from './reducers/weather';
+import weatherReducer from './reducers/weather';
 
 const combinedReducer = combineReducers({
-  // weatherReducer
+  weatherReducer
 })
 
 const reducer = (state: ReturnType<typeof combinedReducer>, action: AnyAction) => {
