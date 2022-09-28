@@ -5,6 +5,11 @@ import { Container } from '../assets/styles/helper'
 import { Button, TextField, Typography } from '@mui/material'
 import { useInput } from '../hooks/useInput'
 import { useRouter } from 'next/router'
+import {motion} from "framer-motion";
+import {sideAnimation} from "../components/animations/sideAnimation";
+import Head from "next/head";
+
+const formAnimation = sideAnimation('x');
 
 const Home: NextPage = () => {
   const router = useRouter()
@@ -16,8 +21,13 @@ const Home: NextPage = () => {
   }
 
   return (
+    <>
+      <Head>
+        <title>Прогноз погоды</title>
+        <meta name={'description'} content={'прогноз погоды любого города'} />
+      </Head>
     <Container>
-      <Form onSubmit={onSubmit}>
+      <Form variants={formAnimation} initial={'hidden'} animate={'visible'} onSubmit={onSubmit}>
         <label>
           <Typography sx={{ textAlign: 'center' }}>Введите город</Typography>
           <TextField value={value} onChange={onChange}/>
@@ -25,10 +35,11 @@ const Home: NextPage = () => {
         <Button type={'submit'} sx={{ color: 'white' }}>Weather</Button>
       </Form>
     </Container>
+      </>
   )
 }
 
-const Form = styled.form`
+const Form = styled(motion.form)`
   display: flex;
   align-items: center;
   justify-content: center;

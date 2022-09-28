@@ -17,6 +17,7 @@ const cardAnimation = sideAnimation('x')
 const WeatherCard: NextPage<IWeatherForComponent> = ({weather}) => {
   return (
     <Card initial={'hidden'} animate={'visible'} variants={cardAnimation}>
+
       <picture>
         <source srcSet={`${process.env.NEXT_PUBLIC_API_ICONS}/${weather.weather[0].icon}.png`} type="image/webp" />
         <img src={`${process.env.NEXT_PUBLIC_API_ICONS}/${weather.weather[0].icon}.png`} alt={'icon'}/>

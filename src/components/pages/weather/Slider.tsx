@@ -48,7 +48,7 @@ const Slider:NextPage<IWeatherForComponent> = ({weather}) => {
       >
         {sliderItems.map(({temp, id, time}) => (
           <SwiperSlide key={id}>
-            <SliderCard time={time} temp={temp} city={weather.weather[0].description}/>
+            <SliderCard time={time} temp={temp} desc={weather.weather[0].description}/>
           </SwiperSlide>
         ))}
       </SliderMain>
