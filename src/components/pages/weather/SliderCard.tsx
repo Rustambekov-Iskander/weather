@@ -1,19 +1,24 @@
 import React from 'react';
 import styled from "styled-components";
-import CloudOutlinedIcon from '@mui/icons-material/CloudOutlined';
-import LocationOnOutlinedIcon from '@mui/icons-material/LocationOnOutlined';
 
-import {Button, IconButton, Typography} from "@mui/material";
+import {Typography} from "@mui/material";
+import type {NextPage} from "next";
 
-const SliderCard = () => {
+interface sliderCardProps {
+  time: string;
+  temp: number;
+  city: string;
+}
+
+const SliderCard:NextPage<sliderCardProps> = ({ time, temp, city}) => {
   return (
     <Card>
-      <Typography sx={{fontWeight: 300}}>12:00pm</Typography>
+      <Typography sx={{fontWeight: 300}}>{time}</Typography>
 
       <Title>
-        <Typography variant={'h4'} sx={{ fontSize: '20px' }}>Щлщл</Typography>
+        <Typography variant={'h4'} sx={{ fontSize: '20px' }}>{city}</Typography>
       </Title>
-      <Typography sx={{ fontWeight: 700, fontSize: '30px' }}>28 °C</Typography>
+      <Typography sx={{ fontWeight: 700, fontSize: '30px' }}>{temp} °C</Typography>
     </Card>
   );
 };

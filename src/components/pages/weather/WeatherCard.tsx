@@ -6,18 +6,28 @@ import LocationOnOutlinedIcon from '@mui/icons-material/LocationOnOutlined';
 import {Button, IconButton, Typography} from "@mui/material";
 import {theme} from "../../../assets/styles/theme";
 import Link from "next/link";
+import {motion} from "framer-motion";
+import {sideAnimation} from "../../animations/sideAnimation";
+import {IWeatherForComponent} from "../../../@types/weather";
+import type {NextPage} from "next";
 
-const WeatherCard = () => {
+const cardAnimation = sideAnimation('x')
+
+
+const WeatherCard: NextPage<IWeatherForComponent> = ({weather}) => {
   return (
-    <Card>
-      <CloudOutlinedIcon fontSize={'large'} sx={{ m: 0 }}/>
+    <Card initial={'hidden'} animate={'visible'} variants={cardAnimation}>
+      <picture>
+        <source srcSet={`${process.env.NEXT_PUBLIC_API_ICONS}/${weather.weather[0].icon}.png`} type="image/webp" />
+        <img src={`${process.env.NEXT_PUBLIC_API_ICONS}/${weather.weather[0].icon}.png`} alt={'icon'}/>
+      </picture>
 
       <Title>
-        <Typography variant={'h4'}>Облачно и местами дожди</Typography>
-        <Typography sx={{fontWeight: 300}}>Бишкек</Typography>
+        <Typography variant={'h4'}>{weather.weather[0].description}</Typography>
+        <Typography sx={{fontWeight: 300}}>{weather.name}</Typography>
       </Title>
 
-      <Temperature>28 °C</Temperature>
+      <Temperature>{Math.round(weather.main.temp - 273.15)} °C</Temperature>
 
       <Link href={'/'}>
         <Button sx={{ display: 'flex', alignItems: "center", color: 'white', fontSize: '10px', p: 0 }}>
@@ -29,7 +39,7 @@ const WeatherCard = () => {
 };
 
 
-const Card = styled.div`
+const Card = styled(motion.div)`
   display: grid;
   grid-row-gap: 20px;
   justify-content: start;

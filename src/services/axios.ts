@@ -6,7 +6,7 @@ export const $api = axios.create({
 
 $api.interceptors.request.use(
   config => {
-    config.params = {...config.params, appid: process.env.NEXT_PUBLIC_API_KEY, lat: 30, lon: 10 }
+    config.params = {...config.params, appid: process.env.NEXT_PUBLIC_API_KEY, lat: 30, lon: 10, lang: 'ru' }
     return config
   },
   error => Promise.reject(error)

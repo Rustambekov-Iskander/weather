@@ -10,11 +10,13 @@ export const GlobalStyle = createGlobalStyle`
     }
     body {
       font-family: "Inter", sans-serif !important;
+      overflow-x: hidden;
       padding: 0;
       margin: 0;
       background-image: url(${images.cloudy});
       background-position: center;
       background-size: cover;
+      background-attachment: fixed;
     }
     a {
       color: inherit;

@@ -1,21 +1,27 @@
-import React, {useEffect, useState} from 'react';
-import KeyboardArrowLeftIcon from '@mui/icons-material/KeyboardArrowLeft';
-import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
-import {Swiper, SwiperSlide, useSwiper} from 'swiper/react';
-import {A11y, Navigation} from 'swiper';
-import 'swiper/css';
-import 'swiper/css/navigation';
-import 'swiper/css/pagination';
-import 'swiper/css/scrollbar';
+import React, { useEffect, useState } from 'react'
+import KeyboardArrowLeftIcon from '@mui/icons-material/KeyboardArrowLeft'
+import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight'
+import { Swiper, SwiperSlide, useSwiper } from 'swiper/react'
+import { A11y, Navigation } from 'swiper'
+import 'swiper/css'
+import 'swiper/css/navigation'
+import 'swiper/css/pagination'
+import 'swiper/css/scrollbar'
 
-import SliderCard from "./SliderCard";
-import styled from "styled-components";
-import {IconButton, useMediaQuery} from "@mui/material";
-import {theme} from "../../../assets/styles/theme";
+import SliderCard from './SliderCard'
+import styled from 'styled-components'
+import { IconButton, useMediaQuery } from '@mui/material'
+import { theme } from '../../../assets/styles/theme'
+import { motion } from 'framer-motion'
+import { sideAnimation } from '../../animations/sideAnimation'
+import { sliderItems } from '../../../services/constants'
+import type {NextPage} from "next";
+import {IWeatherForComponent} from "../../../@types/weather";
 
-const Slider = () => {
+const sliderAnimation = sideAnimation('y')
 
-  const [slideView, setSlideView] = useState(3);
+const Slider:NextPage<IWeatherForComponent> = ({weather}) => {
+  const [slideView, setSlideView] = useState(3)
   const screenWidthSM = useMediaQuery(theme.mqMax('sm'))
   const screenWidthMD = useMediaQuery(theme.mqMax('lg'))
   const screenWidthLG = useMediaQuery(theme.mq('lg'))
@@ -30,40 +36,35 @@ const Slider = () => {
     if (screenWidthSM) {
       setSlideView(2)
     }
-  }, [screenWidthLG, screenWidthMD, screenWidthSM]);
-
-
+  }, [screenWidthLG, screenWidthMD, screenWidthSM])
 
   return (
-    <Main>
-    <SliderMain
-      modules={[A11y, Navigation]}
-      navigation={{ nextEl: '#swiper-next', prevEl: '#swiper-prev' }}
-      spaceBetween={40}
-      slidesPerView={slideView}
-    >
-      <SwiperSlide><SliderCard/></SwiperSlide>
-      <SwiperSlide><SliderCard/></SwiperSlide>
-      <SwiperSlide><SliderCard/></SwiperSlide>
-      <SwiperSlide><SliderCard/></SwiperSlide>
-      <SwiperSlide><SliderCard/></SwiperSlide>
-      <SwiperSlide><SliderCard/></SwiperSlide>
-      <SwiperSlide><SliderCard/></SwiperSlide>
-      <SwiperSlide><SliderCard/></SwiperSlide>
-      <SwiperSlide><SliderCard/></SwiperSlide>
-      <SwiperSlide><SliderCard/></SwiperSlide>
-      <SwiperSlide><SliderCard/></SwiperSlide>
-      <SwiperSlide><SliderCard/></SwiperSlide>
-    </SliderMain>
+    <Main initial={'hidden'} animate={'visible'} variants={sliderAnimation}>
+      <SliderMain
+        modules={[A11y, Navigation]}
+        navigation={{ nextEl: '#swiper-next', prevEl: '#swiper-prev' }}
+        spaceBetween={40}
+        slidesPerView={slideView}
+      >
+        {sliderItems.map(({temp, id, time}) => (
+          <SwiperSlide key={id}>
+            <SliderCard time={time} temp={temp} city={weather.weather[0].description}/>
+          </SwiperSlide>
+        ))}
+      </SliderMain>
       <Buttons>
-        <IconButton sx={{color: 'white'}} id="swiper-prev"><KeyboardArrowLeftIcon/></IconButton>
-        <IconButton sx={{color: 'white'}} id="swiper-next"><KeyboardArrowRightIcon/></IconButton>
+        <IconButton sx={{ color: 'white' }} id="swiper-prev">
+          <KeyboardArrowLeftIcon />
+        </IconButton>
+        <IconButton sx={{ color: 'white' }} id="swiper-next">
+          <KeyboardArrowRightIcon />
+        </IconButton>
       </Buttons>
     </Main>
-);
+  )
 }
 
-const Main = styled.div`
+const Main = styled(motion.div)`
   display: flex;
   justify-content: center;
   flex-wrap: wrap;
@@ -81,8 +82,7 @@ const Buttons = styled.div`
   align-items: center;
   color: white;
   padding: 0;
-  
-  
+
   button {
     border: 1px solid;
     padding: 5px;
@@ -91,4 +91,4 @@ const Buttons = styled.div`
   }
 `
 
-export default Slider;
+export default Slider

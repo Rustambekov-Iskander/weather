@@ -45,3 +45,7 @@ export interface IWeather {
   name: string;
   cod: number
 }
+
+export interface IWeatherForComponent {
+  weather: IWeather
+}

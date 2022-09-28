@@ -7,35 +7,51 @@ import WindPowerOutlinedIcon from '@mui/icons-material/WindPowerOutlined';
 
 import { Typography } from '@mui/material'
 import {theme} from "../../../assets/styles/theme";
+import {motion} from "framer-motion";
+import type {NextPage} from "next";
+import {IWeatherForComponent} from "../../../@types/weather";
 
-const SideBar = () => {
+
+const groupAnimation = {
+  initial: {
+    opacity: 0,
+    x: 20
+  },
+  visible: (custom: number) => ({
+    opacity: 1,
+    x: 0,
+    transition: {delay: custom * .1}
+  })
+}
+
+const SideBar: NextPage<IWeatherForComponent> = ({weather}) => {
   return (
-    <List>
-      <Row>
+    <List initial={"initial"} animate={"visible"}>
+      <Row variants={groupAnimation} custom={1}>
         <WaterOutlinedIcon fontSize={'large'} sx={{ gridArea: 'icon' }} />
         <Title>Влажность</Title>
-        <Desc>50%</Desc>
+        <Desc>{weather.main.humidity}%</Desc>
       </Row>
-      <Row>
+      <Row variants={groupAnimation} custom={2}>
         <StormOutlinedIcon fontSize={'large'} sx={{ gridArea: 'icon' }} />
         <Title>давление воздуха</Title>
-        <Desc>1009.09PS</Desc>
+        <Desc>{weather.main.pressure} PS</Desc>
       </Row>
-      <Row>
+      <Row variants={groupAnimation} custom={3}>
         <GrainOutlinedIcon fontSize={'large'} sx={{ gridArea: 'icon' }} />
         <Title>вероятность дождя</Title>
-        <Desc>0%</Desc>
+        <Desc>15%</Desc>
       </Row>
-      <Row>
+      <Row variants={groupAnimation} custom={4}>
         <WindPowerOutlinedIcon fontSize={'large'} sx={{ gridArea: 'icon' }} />
         <Title>скорость воздуха</Title>
-        <Desc>1.4 км/ч</Desc>
+        <Desc>{weather.wind.speed} км/ч</Desc>
       </Row>
     </List>
   )
 }
 
-const List = styled.menu`
+const List = styled(motion.menu)`
   margin: 0;
   display: grid;
   align-content: start;
@@ -43,7 +59,7 @@ const List = styled.menu`
   grid-row-gap: 10px;
 `
 
-const Row = styled.li`
+const Row = styled(motion.li)`
   display: grid;
   grid-template-areas:
     'icon title'

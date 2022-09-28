@@ -13,31 +13,27 @@ import { useRouter } from 'next/router'
 import Link from 'next/link'
 
 const Index = () => {
-  const {
-    query: { city }
-  } = useRouter()
+  const {query: { city }} = useRouter()
   const { weather } = useAppSelector(state => state.weatherReducer)
-  console.log(weather)
 
+
+ if (weather.length <= 0) {
+    return (
+      <Flex direction={'column'} align={'center'} justify={'center'} margin={'40vh 0 0'}>
+        <Typography>По запросу `&quot;`{city}`&quot;` ничего не найдено</Typography>
+        <Link href={'/'}>
+          <Button sx={{ color: 'white' }}>Вернутся назад</Button>
+        </Link>
+      </Flex>
+    )
+  }
   return (
     <Wrapper>
-      {weather.length != 0 ? (
-        <>
-          {' '}
-          <Flex justify={'space-between'} margin={'0 0 40px'}>
-            <WeatherCard />
-            <SideBar />
-          </Flex>
-          <Slider />
-        </>
-      ) : (
-        <Flex direction={'column'} align={'center'} justify={'center'}>
-          <Typography>По запросу "{city}" ничего не найдено</Typography>
-          <Link href={'/'}>
-            <Button sx={{ color: 'white' }}>Вернутся назад</Button>
-          </Link>
-        </Flex>
-      )}
+      <Flex justify={'space-between'} margin={'0 0 40px'}>
+        <WeatherCard weather={weather}/>
+        <SideBar weather={weather}/>
+      </Flex>
+      <Slider weather={weather}/>
     </Wrapper>
   )
 }
@@ -56,11 +52,6 @@ const Wrapper = styled.div`
   min-height: 100vh;
   height: 100%;
   padding: 20px;
-
-  background-image: url(${bg.src});
-  background-position: center;
-  background-size: cover;
-  background-attachment: fixed;
 `
 
 export default Index

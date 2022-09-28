@@ -4,7 +4,6 @@ import { theme, themeMui } from '../assets/styles/theme'
 import { ThemeProvider as ThemeProviderMui } from '@mui/material'
 import { ThemeProvider } from 'styled-components'
 import RouterLoader from '../components/UI/RouterLoader'
-import 'react-toastify/dist/ReactToastify.css'
 import { wrapper } from '../redux/store'
 
 function MyApp({ Component, pageProps }: AppProps) {

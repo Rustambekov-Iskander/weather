@@ -7,7 +7,6 @@ export const fetchWeather = createAsyncThunk('weather/fetchWeather', async (city
     const { data } = await $api.get('', {
       params: {
         q: city,
-        lang: 'ru'
       }
     })
     return { data }
@@ -17,7 +16,7 @@ export const fetchWeather = createAsyncThunk('weather/fetchWeather', async (city
 })
 
 interface initialStateType {
-  weather: IWeather[]
+  weather: IWeather[] | any
   isLoading: boolean
   isError: string
 }
