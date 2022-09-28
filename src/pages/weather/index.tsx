@@ -10,7 +10,7 @@ import { useAppSelector } from '../../hooks/redux'
 import { Button, Typography } from '@mui/material'
 import { useRouter } from 'next/router'
 import Link from 'next/link'
-import Head from "next/Head";
+import Head from "next/head";
 
 const Index = () => {
   const {query: { city }} = useRouter()

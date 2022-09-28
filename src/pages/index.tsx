@@ -7,7 +7,7 @@ import { useInput } from '../hooks/useInput'
 import { useRouter } from 'next/router'
 import {motion} from "framer-motion";
 import {sideAnimation} from "../components/animations/sideAnimation";
-import Head from "next/Head";
+import Head from "next/head";
 
 const formAnimation = sideAnimation('x');
 
